@@ -8,9 +8,9 @@ import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import fr.skygames.managethediscord.utils.embeds.MusicEB;
-import net.dv8tion.jda.api.entities.Emoji;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.interactions.commands.SlashCommandInteraction;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
@@ -54,7 +54,7 @@ public class PlayerManager {
                 musicEB.getBuilder().addField("Music", audioTrack.getInfo().title, false);
                 musicEB.getBuilder().addField("Author", audioTrack.getInfo().author, false);
                 musicEB.getBuilder().addField("Added by", Objects.requireNonNull(data.getMember()).getAsMention(), false);
-                data.getHook().sendMessageEmbeds(musicEB.getBuilder().build()).addActionRow(musicEB.getActionRow()).queue();
+                data.getHook().getInteraction().getMessageChannel().sendMessageEmbeds(musicEB.getBuilder().build()).addActionRow(musicEB.getActionRow()).queue();
             }
 
             @Override
@@ -67,7 +67,7 @@ public class PlayerManager {
                     musicEB.getBuilder().addField("Music", tracks.get(0).getInfo().title, false);
                     musicEB.getBuilder().addField("Author", tracks.get(0).getInfo().author, false);
                     musicEB.getBuilder().addField("Added by", Objects.requireNonNull(data.getMember()).getAsMention(), false);
-                    data.getHook().sendMessageEmbeds(musicEB.getBuilder().build()).addActionRow(musicEB.getActionRow()).queue();
+                    data.getHook().getInteraction().getMessageChannel().sendMessageEmbeds(musicEB.getBuilder().build()).addActionRow(musicEB.getActionRow()).queue();
                 }
             }
 
@@ -75,7 +75,7 @@ public class PlayerManager {
             public void noMatches() {
                 MusicEB musicEB = new MusicEB();
                 musicEB.getBuilder().setDescription("Couldn't find the specified music.");
-                data.getHook().sendMessageEmbeds(musicEB.getBuilder().build()).addActionRow(
+                data.getHook().getInteraction().getMessageChannel().sendMessageEmbeds(musicEB.getBuilder().build()).addActionRow(
                         Button.link("https://skygames.fr", "SkyGames").withEmoji(Emoji.fromUnicode("✨"))
                 ).queue();
             }
@@ -84,7 +84,7 @@ public class PlayerManager {
             public void loadFailed(FriendlyException e) {
                 MusicEB musicEB = new MusicEB();
                 musicEB.getBuilder().setDescription("Failed to load new music.");
-                data.getHook().sendMessageEmbeds(musicEB.getBuilder().build()).addActionRow(
+                data.getHook().getInteraction().getMessageChannel().sendMessageEmbeds(musicEB.getBuilder().build()).addActionRow(
                         Button.link("https://skygames.fr", "SkyGames").withEmoji(Emoji.fromUnicode("✨"))
                 ).queue();
             }

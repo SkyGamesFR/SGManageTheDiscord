@@ -38,7 +38,7 @@ public class AlphaCommand extends ListenerAdapter {
 
                 MessageEmbed embed = embedBuilder.build();
                 event.replyEmbeds(embed)
-                        .allowedMentions(EnumSet.of(Message.MentionType.ROLE))
+                        .setAllowedMentions(EnumSet.of(Message.MentionType.ROLE))
                         .mentionRoles("972124392475738152")
                         .queue();
             } else {

@@ -1,10 +1,8 @@
 package fr.skygames.managethediscord.listeners;
 
 import fr.skygames.managethediscord.utils.Constants;
-import fr.skygames.managethediscord.utils.EmbedUtils;
 import fr.skygames.managethediscord.utils.files.GlobalProperties;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberRemoveEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;

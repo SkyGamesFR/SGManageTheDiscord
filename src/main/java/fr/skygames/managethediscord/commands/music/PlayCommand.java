@@ -1,7 +1,7 @@
 package fr.skygames.managethediscord.commands.music;
 
 import fr.skygames.managethediscord.lavaplayer.PlayerManager;
-import net.dv8tion.jda.api.entities.VoiceChannel;
+import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.managers.AudioManager;
@@ -39,9 +39,9 @@ public class PlayCommand extends ListenerAdapter {
             if (!isUrl(link)) {
                 link = "ytsearch:" + event.getOptions().get(0).getAsString() + " music";
             }
-            event.getChannel().sendMessage("Loading...").queue();
             try {
-                PlayerManager.getInstance().loadAndPlay(event.getTextChannel(), event, link);
+                PlayerManager.getInstance().loadAndPlay(event.getChannel().asTextChannel(), event, link);
+                event.getHook().deleteOriginal().queue();
             } catch (Exception e) {
                 e.printStackTrace();
             }

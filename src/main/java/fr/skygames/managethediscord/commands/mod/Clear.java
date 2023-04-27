@@ -4,7 +4,6 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
@@ -21,31 +20,26 @@ public class Clear extends ListenerAdapter {
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         if(event.getInteraction().getName().equalsIgnoreCase("clear")) {
             if (Objects.requireNonNull(event.getMember()).hasPermission(Permission.MESSAGE_MANAGE)){
-                String[] commandArgs = Objects.requireNonNull(event.getOption("amount")).getAsString().split(" ");
+                int amount = event.getOptions().get(0).getAsInt();
                 final EmbedBuilder embedBuilder = new EmbedBuilder();
                 embedBuilder.setColor(Color.GREEN);
                 embedBuilder.setFooter("SkyGames | " + new SimpleDateFormat("'le' dd/MM/yyyy '\u00E0' kk:mm:ss").format(new Date()));
 
-                if (1 < commandArgs.length){
-                    int amount = Integer.parseInt(commandArgs[1]);
-
-                    if (amount < 1){
-                        embedBuilder.setTitle("Erreur");
-                        embedBuilder.setDescription("Vous ne pouvez pas supprimer moins d'un message.");
-                    }else if (amount > 100){
-                        embedBuilder.setTitle("Erreur");
-                        embedBuilder.setDescription("Vous ne pouvez pas supprimer plus de cent messages.");
-                    }else{
-                        List<Message> msgs = event.getChannel().getHistory().retrievePast(amount).complete();
-                        event.getChannel().purgeMessages(msgs);
-                        embedBuilder.setTitle("Succès");
-                        embedBuilder.setDescription(String.format("Vous avez bien supprimé %s messages !", amount));
-                    }
+                if (amount > 100){
+                    embedBuilder.setTitle("Erreur");
+                    embedBuilder.setDescription("Vous ne pouvez pas supprimer plus de cent messages.");
                 }else{
                     embedBuilder.setTitle("Erreur");
                     embedBuilder.setDescription("Référez-vous a la commande help.");
                 }
-                event.getTextChannel().sendMessageEmbeds(embedBuilder.build()).queue();
+
+                event.getChannel().getHistory().retrievePast((int) amount).queue(
+                        (List<Message> messages) -> {
+                            event.getChannel().asTextChannel().deleteMessages(messages).queue();
+                        }
+                );
+
+                event.getChannel().sendMessageEmbeds(embedBuilder.build()).queue();
             }
         }
     }

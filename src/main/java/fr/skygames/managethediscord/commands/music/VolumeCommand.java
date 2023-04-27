@@ -18,7 +18,7 @@ public class VolumeCommand extends ListenerAdapter {
             int volume = Objects.requireNonNull(event.getOption("volume")).getAsInt();
 
             musicManager.audioPlayer.setVolume(volume);
-            event.replyFormat("Le volume a été réglé sur `%d`", volume).queue();
+            event.replyFormat("Le volume a été réglé sur `%d`", volume).setEphemeral(true).queue();
         }
     }
 }

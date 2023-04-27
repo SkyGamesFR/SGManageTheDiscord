@@ -2,11 +2,13 @@ package fr.skygames.managethediscord.utils;
 
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.VoiceChannel;
+import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
 import net.dv8tion.jda.api.events.Event;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 public class Constants {
 
@@ -50,6 +52,10 @@ public class Constants {
         denyPermissions.add(Permission.VOICE_MOVE_OTHERS);
 
         return denyPermissions.size();
+    }
+
+    public static String DATE_FORMAT() {
+        return new SimpleDateFormat("'le' dd/MM/yyyy '\u00E0' kk:mm:ss").format(new Date());
     }
 
 }

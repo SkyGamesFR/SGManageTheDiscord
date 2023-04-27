@@ -5,7 +5,7 @@ import fr.skygames.managethediscord.lavaplayer.GuildMusicManager;
 import fr.skygames.managethediscord.lavaplayer.PlayerManager;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
@@ -17,7 +17,7 @@ public class SkipCommand extends ListenerAdapter {
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         if (event.getInteraction().getName().equals("skip")) {
-            final TextChannel channel = event.getTextChannel();
+            final TextChannel channel = event.getChannel().asTextChannel();
             final GuildVoiceState selfVoiceState = Objects.requireNonNull(event.getGuild()).getSelfMember().getVoiceState();
 
             if (!selfVoiceState.inAudioChannel()) {

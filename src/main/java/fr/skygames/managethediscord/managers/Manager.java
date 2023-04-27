@@ -1,13 +1,11 @@
 package fr.skygames.managethediscord.managers;
 
 import fr.skygames.managethediscord.commands.Help;
+import fr.skygames.managethediscord.commands.RolesCommand;
 import fr.skygames.managethediscord.commands.mod.Clear;
 import fr.skygames.managethediscord.commands.music.*;
 import fr.skygames.managethediscord.commands.owner.AlphaCommand;
-import fr.skygames.managethediscord.commands.RolesCommand;
-import fr.skygames.managethediscord.listeners.LeaveJoinListener;
-import fr.skygames.managethediscord.listeners.ReadyListener;
-import fr.skygames.managethediscord.listeners.TempChannels;
+import fr.skygames.managethediscord.listeners.*;
 import fr.skygames.managethediscord.sql.SqlConnector;
 import fr.skygames.managethediscord.utils.SlashCommandRegistry;
 import fr.skygames.managethediscord.utils.exception.MissingPropertyException;
@@ -16,9 +14,6 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.interactions.commands.OptionType;
-import net.dv8tion.jda.api.interactions.commands.build.Commands;
-import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import org.slf4j.Logger;
@@ -50,6 +45,7 @@ public class Manager {
                 .setActivity(Activity.streaming("ManageTheDiscord", "https://www.youtube.com/watch?v=dQw4w9WgXcQ"))
                 .addEventListeners(
                         new ReadyListener(this.logger, this),
+                        new GuildListener(),
                         new LeaveJoinListener(config),
 
                         new TempChannels(),
@@ -63,12 +59,14 @@ public class Manager {
                         new StopCommand(),
                         new VolumeCommand(),
 
+                        new ButtonListener(),
+
                         new RolesCommand(connector),
                         new AlphaCommand(),
                         new Help(),
                         new Clear()
                 )
-                .enableCache(CacheFlag.VOICE_STATE, CacheFlag.ACTIVITY, CacheFlag.CLIENT_STATUS, CacheFlag.EMOTE, CacheFlag.MEMBER_OVERRIDES, CacheFlag.ONLINE_STATUS, CacheFlag.ROLE_TAGS, CacheFlag.VOICE_STATE)
+                .enableCache(CacheFlag.VOICE_STATE, CacheFlag.ACTIVITY, CacheFlag.CLIENT_STATUS, CacheFlag.EMOJI, CacheFlag.MEMBER_OVERRIDES, CacheFlag.ONLINE_STATUS, CacheFlag.ROLE_TAGS, CacheFlag.VOICE_STATE)
                 .enableIntents(GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_VOICE_STATES, GatewayIntent.GUILD_PRESENCES)
                 .build();
     }
@@ -96,7 +94,7 @@ public class Manager {
 
         if(guild != null) {
             logger.info("Registering commands...");
-            SlashCommandRegistry.register(jda);
+            SlashCommandRegistry.register(guild);
         }
 
         logger.info("Command roles registered");

@@ -2,7 +2,7 @@ package fr.skygames.managethediscord.utils.embeds;
 
 import fr.skygames.managethediscord.utils.Constants;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.Emoji;
+import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 
 import java.awt.*;
@@ -11,8 +11,8 @@ import java.util.List;
 
 public class MusicEB {
 
-    private EmbedBuilder builder;
-    private List<Button> actionRow;
+    private final EmbedBuilder builder;
+    private final List<Button> actionRow;
 
     public MusicEB() {
         builder = new EmbedBuilder();

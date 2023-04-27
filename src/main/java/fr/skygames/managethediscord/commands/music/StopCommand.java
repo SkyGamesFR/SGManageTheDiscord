@@ -2,11 +2,11 @@ package fr.skygames.managethediscord.commands.music;
 
 import fr.skygames.managethediscord.lavaplayer.GuildMusicManager;
 import fr.skygames.managethediscord.lavaplayer.PlayerManager;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.TextChannel;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -16,11 +16,11 @@ public class StopCommand extends ListenerAdapter {
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         if(event.getName().equals("stop")) {
-            final TextChannel channel = event.getTextChannel();
+            final TextChannel channel = event.getChannel().asTextChannel();
             final GuildVoiceState selfVoiceState = Objects.requireNonNull(event.getGuild()).getSelfMember().getVoiceState();
 
             if (!selfVoiceState.inAudioChannel()) {
-                channel.sendMessage("I need to be in a voice channel for this to work").queue();
+                event.reply("Je dois être dans un Channel vocal pour que cela fonctionne.").queue();
                 return;
             }
 
@@ -28,12 +28,12 @@ public class StopCommand extends ListenerAdapter {
             final GuildVoiceState memberVoiceState = member.getVoiceState();
 
             if (!memberVoiceState.inAudioChannel()) {
-                channel.sendMessage("You need to be in a voice channel for this command to work").queue();
+                event.reply("Vous devez être dans un Channel vocal pour que cette commande fonctionne.").queue();
                 return;
             }
 
             if (!memberVoiceState.getChannel().equals(selfVoiceState.getChannel())) {
-                channel.sendMessage("You need to be in the same voice channel as me for this to work").queue();
+                event.reply("Vous devez être dans le même Channel vocal que moi pour que cela fonctionne.").queue();
                 return;
             }
 
@@ -42,7 +42,7 @@ public class StopCommand extends ListenerAdapter {
             musicManager.scheduler.player.stopTrack();
             musicManager.scheduler.queue.clear();
 
-            channel.sendMessage("The player has been stopped and the queue has been cleared").queue();
+            event.reply("La musique a été arrêté et la file d'attente a été vidée.").queue();
         }
     }
 }

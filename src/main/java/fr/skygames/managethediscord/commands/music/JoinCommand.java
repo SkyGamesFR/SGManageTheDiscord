@@ -1,6 +1,8 @@
 package fr.skygames.managethediscord.commands.music;
 
 import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.entities.channel.middleman.AudioChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.managers.AudioManager;
@@ -13,7 +15,7 @@ public class JoinCommand extends ListenerAdapter {
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         if(event.getName().equals("join")) {
-            final TextChannel channel = event.getTextChannel();
+            final TextChannel channel = event.getChannel().asTextChannel();
             final GuildVoiceState selfVoiceState = Objects.requireNonNull(event.getGuild()).getSelfMember().getVoiceState();
 
             assert selfVoiceState != null;
