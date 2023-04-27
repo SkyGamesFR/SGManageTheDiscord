@@ -2,6 +2,9 @@
 **/build/
 !src/**/build/
 
+**/src/main/resources/global.properties
+**/src/main/resources/sql.properties
+
 # Ignore Gradle GUI config
 gradle-app.setting
 
