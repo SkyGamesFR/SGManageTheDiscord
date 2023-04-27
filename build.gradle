@@ -1,0 +1,42 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '7.1.0'
+
+}
+
+group = "fr.skygames"
+version = "1.0-SNAPSHOT"
+
+repositories {
+    mavenCentral()
+    jcenter()
+    maven {
+        url 'https://m2.dv8tion.net/releases'
+    }
+}
+
+configurations {
+    shade
+    implementation.extendsFrom shade
+}
+
+dependencies {
+    shade 'net.dv8tion:JDA:5.0.0-alpha.11'
+    shade 'ch.qos.logback:logback-classic:1.2.9'
+    shade 'org.codehaus.janino:janino:3.0.7'
+    shade 'org.mariadb.jdbc:mariadb-java-client:2.6.0'
+    shade 'com.sedmelluq:lavaplayer:1.3.77'
+}
+
+shadowJar {
+    configurations = [project.configurations.shade]
+}
+
+compileJava.options.encoding = "UTF-8"
+
+// add minfest for Main-Class
+jar {
+    manifest {
+        attributes 'Main-Class': 'fr.skygames.managethediscord.Main'
+    }
+}
