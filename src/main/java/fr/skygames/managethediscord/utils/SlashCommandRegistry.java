@@ -48,6 +48,10 @@ public class SlashCommandRegistry {
 
             guild.upsertCommand("stop", "Stop the current song").queue();
 
+            guild.upsertCommand("pause", "Pause the current song").queue();
+
+            guild.upsertCommand("resume", "Resume the current song").queue();
+
             guild.upsertCommand("volume", "Change the volume of the bot")
                     .addOption(OptionType.INTEGER, "volume", "The volume you want to set", true)
                     .queue();
