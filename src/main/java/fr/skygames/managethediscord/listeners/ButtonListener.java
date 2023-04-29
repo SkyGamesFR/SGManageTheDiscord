@@ -8,7 +8,6 @@ import fr.skygames.managethediscord.lavaplayer.PlayerManager;
 import fr.skygames.managethediscord.utils.Constants;
 import fr.skygames.managethediscord.utils.embeds.MusicEB;
 import genius.SongSearch;
-import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
@@ -16,6 +15,7 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -23,19 +23,21 @@ import java.util.Objects;
 public class ButtonListener extends ListenerAdapter {
 
     private final MusicEB musicEB = new MusicEB();
+    private final Help help = new Help();
 
     @Override
-    public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
-        Help help = new Help();
+    public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         help.onSlashCommand(event);
     }
 
     @Override
-    public void onButtonInteraction(ButtonInteractionEvent event) {
+    public void onButtonInteraction(@NotNull ButtonInteractionEvent event) {
+
+        help.onButtonInteraction(event);
 
         switch (event.getComponentId()) {
             case "pause":
-                GuildMusicManager guildMusicManager = PlayerManager.getInstance().getMusicManager(event.getGuild());
+                GuildMusicManager guildMusicManager = PlayerManager.getInstance().getMusicManager(Objects.requireNonNull(event.getGuild()));
 
                 if(guildMusicManager.scheduler.player.getPlayingTrack() == null) {
                     musicEB.getBuilder().setDescription("Il n'y a pas de musique en cours de lecture.");
@@ -49,21 +51,21 @@ public class ButtonListener extends ListenerAdapter {
                 musicEB.getBuilder().addField("Musique actuelle", guildMusicManager.scheduler.player.getPlayingTrack().getInfo().title, false);
                 if(guildMusicManager.scheduler.player.isPaused()) {
                     musicEB.getBuilder().setDescription("La musique en cours a été mise en pause.");
-                    musicEB.getBuilder().addField("Mis en pause par", event.getMember().getAsMention(), false);
+                    musicEB.getBuilder().addField("Mis en pause par", Objects.requireNonNull(event.getMember()).getAsMention(), false);
                 }else {
                     musicEB.getBuilder().setDescription("La musique en cours a été mise en pause.");
-                    musicEB.getBuilder().addField("Désactiver la pause par", event.getMember().getAsMention(), false);
+                    musicEB.getBuilder().addField("Désactiver la pause par", Objects.requireNonNull(event.getMember()).getAsMention(), false);
                 }
                 event.editMessageEmbeds(musicEB.getBuilder().build()).setActionRow(musicEB.getActionRow()).queue();
                 break;
             case "stop":
-                if(!event.getMember().getVoiceState().inAudioChannel()){
+                if(!Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).inAudioChannel()){
                     musicEB.getBuilder().setDescription("Vous devez être dans un Channel vocal pour que cette commande fonctionne..");
                     event.replyEmbeds(musicEB.getBuilder().build()).setEphemeral(true).queue();
                     return;
                 }
 
-                if(!event.getGuild().getSelfMember().getVoiceState().inAudioChannel()){
+                if(!Objects.requireNonNull(Objects.requireNonNull(event.getGuild()).getSelfMember().getVoiceState()).inAudioChannel()){
                     musicEB.getBuilder().setDescription("Je dois être dans un canal vocal ou je dois jouer de la musique pour que cette commande fonctionne..");
                     event.replyEmbeds(musicEB.getBuilder().build()).setEphemeral(true).queue();
                     return;
@@ -81,7 +83,7 @@ public class ButtonListener extends ListenerAdapter {
                 }
                 break;
             case "skip":
-                final Member self = event.getGuild().getSelfMember();
+                final Member self = Objects.requireNonNull(event.getGuild()).getSelfMember();
                 final GuildVoiceState selfVoiceState = self.getVoiceState();
 
                 if(selfVoiceState == null || !selfVoiceState.inAudioChannel()){
@@ -90,15 +92,16 @@ public class ButtonListener extends ListenerAdapter {
                     return;
                 }
 
-                final GuildVoiceState memberVoiceState = event.getMember().getVoiceState();
+                final GuildVoiceState memberVoiceState = Objects.requireNonNull(event.getMember()).getVoiceState();
 
+                assert memberVoiceState != null;
                 if(!memberVoiceState.inAudioChannel()){
                     musicEB.getBuilder().setDescription("Vous devez être dans un Channel vocal pour que cette commande fonctionne..");
                     event.replyEmbeds(musicEB.getBuilder().build()).setEphemeral(true).queue();
                     return;
                 }
 
-                if(!memberVoiceState.getChannel().equals(selfVoiceState.getChannel())){
+                if(!Objects.equals(memberVoiceState.getChannel(), selfVoiceState.getChannel())){
                     musicEB.getBuilder().setDescription("Vous devez être dans le même Channel vocal que moi pour que cela fonctionne.");
                     event.replyEmbeds(musicEB.getBuilder().build()).setEphemeral(true).queue();
                     return;
@@ -123,7 +126,7 @@ public class ButtonListener extends ListenerAdapter {
                 event.editMessageEmbeds(musicEB.getBuilder().build()).setActionRow(musicEB.getActionRow()).queue();
                 break;
             case "lyrics":
-                final GuildMusicManager musicManager2 = PlayerManager.getInstance().getMusicManager(event.getGuild());
+                final GuildMusicManager musicManager2 = PlayerManager.getInstance().getMusicManager(Objects.requireNonNull(event.getGuild()));
                 final AudioPlayer audioPlayer2 = musicManager2.audioPlayer;
 
                 MusicEB musicEB = new MusicEB();

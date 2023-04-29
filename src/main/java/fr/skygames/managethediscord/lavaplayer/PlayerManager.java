@@ -7,13 +7,13 @@ import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import fr.skygames.managethediscord.utils.Constants;
 import fr.skygames.managethediscord.utils.embeds.MusicEB;
+import fr.skygames.managethediscord.utils.embeds.ProgressBar;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.interactions.commands.SlashCommandInteraction;
-import net.dv8tion.jda.api.interactions.commands.build.CommandData;
-import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 
 import java.util.HashMap;
@@ -49,11 +49,17 @@ public class PlayerManager {
             @Override
             public void trackLoaded(AudioTrack audioTrack) {
                 musicManager.scheduler.queue(audioTrack);
+                ProgressBar progressBar = new ProgressBar();
                 MusicEB musicEB = new MusicEB();
-                musicEB.getBuilder().setDescription("A new music has been added to queue.");
-                musicEB.getBuilder().addField("Music", audioTrack.getInfo().title, false);
-                musicEB.getBuilder().addField("Author", audioTrack.getInfo().author, false);
-                musicEB.getBuilder().addField("Added by", Objects.requireNonNull(data.getMember()).getAsMention(), false);
+                musicEB.getBuilder().setDescription("Une musique a été ajouté a la file d'attente.");
+                musicEB.getBuilder().addField("Musique", audioTrack.getInfo().title, false);
+                musicEB.getBuilder().addField("Auteur", audioTrack.getInfo().author, false);
+                musicEB.getBuilder().addField("Durée", Constants.millisecondsToTime(audioTrack.getDuration()), false);
+
+                System.out.println("AZERTY " + audioTrack.getPosition() + " " + audioTrack.getDuration());
+
+                musicEB.getBuilder().addField(" ", progressBar.updateMusic(audioTrack.getDuration(), audioTrack.getPosition()), false);
+                musicEB.getBuilder().addField("Ajouté par", Objects.requireNonNull(data.getMember()).getAsMention(), false);
                 data.getHook().getInteraction().getMessageChannel().sendMessageEmbeds(musicEB.getBuilder().build()).addActionRow(musicEB.getActionRow()).queue();
             }
 
@@ -63,10 +69,10 @@ public class PlayerManager {
                 if(!tracks.isEmpty()){
                     musicManager.scheduler.queue(tracks.get(0));
                     MusicEB musicEB = new MusicEB();
-                    musicEB.getBuilder().setDescription("A new music has been added to queue.");
-                    musicEB.getBuilder().addField("Music", tracks.get(0).getInfo().title, false);
-                    musicEB.getBuilder().addField("Author", tracks.get(0).getInfo().author, false);
-                    musicEB.getBuilder().addField("Added by", Objects.requireNonNull(data.getMember()).getAsMention(), false);
+                    musicEB.getBuilder().setDescription("Une playlist a été ajouté a la file d'attente.");
+                    musicEB.getBuilder().addField("Nom", String.valueOf(tracks.size()), false);
+                    musicEB.getBuilder().addField("Auteur", audioPlaylist.getName(), false);
+                    musicEB.getBuilder().addField("Ajouté par", Objects.requireNonNull(data.getMember()).getAsMention(), false);
                     data.getHook().getInteraction().getMessageChannel().sendMessageEmbeds(musicEB.getBuilder().build()).addActionRow(musicEB.getActionRow()).queue();
                 }
             }
@@ -74,7 +80,7 @@ public class PlayerManager {
             @Override
             public void noMatches() {
                 MusicEB musicEB = new MusicEB();
-                musicEB.getBuilder().setDescription("Couldn't find the specified music.");
+                musicEB.getBuilder().setDescription("Impossible de trouver la musique.");
                 data.getHook().getInteraction().getMessageChannel().sendMessageEmbeds(musicEB.getBuilder().build()).addActionRow(
                         Button.link("https://skygames.fr", "SkyGames").withEmoji(Emoji.fromUnicode("✨"))
                 ).queue();
@@ -83,7 +89,7 @@ public class PlayerManager {
             @Override
             public void loadFailed(FriendlyException e) {
                 MusicEB musicEB = new MusicEB();
-                musicEB.getBuilder().setDescription("Failed to load new music.");
+                musicEB.getBuilder().setDescription("Impossible de charger la musique.");
                 data.getHook().getInteraction().getMessageChannel().sendMessageEmbeds(musicEB.getBuilder().build()).addActionRow(
                         Button.link("https://skygames.fr", "SkyGames").withEmoji(Emoji.fromUnicode("✨"))
                 ).queue();

@@ -21,4 +21,26 @@ public class ProgressBar {
         progressBar.append("]");
         return progressBar.toString();
     }
+
+    public String updateMusic(long max, long playtime) {
+        int progress = (int) Math.min(max, playtime);
+        int numBars = (int) ((double) progress / playtime * BAR_LENGTH);
+
+        StringBuilder progressBar = new StringBuilder();
+        progressBar.append("[");
+        for (int i = 0; i < 20; i++) {
+            if (i < numBars) {
+                progressBar.append(BAR_CHARACTER);
+            } else if(i == 0) {
+                progressBar.append(BAR_CHARACTER);
+            }else {
+                progressBar.append("ㅤ");
+            }
+        }
+        progressBar.append("]");
+
+        System.out.println(progressBar.toString());
+
+        return progressBar.toString();
+    }
 }

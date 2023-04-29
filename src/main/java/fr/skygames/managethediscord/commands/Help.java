@@ -26,6 +26,8 @@ public class Help extends ListenerAdapter {
     public void onSlashCommand(SlashCommandInteraction event) {
         if (event.getName().equals("help")) {
             List<Command> commands = event.getJDA().retrieveCommands().complete();
+            System.out.println(commands);
+            System.out.println(commands.size());
             List<Command> filteredCommands = filterCommands(commands, event);
             List<MessageEmbed> embeds = this.buildEmbeds(filteredCommands);
             PaginatedEmbed paginatedEmbed = new PaginatedEmbed(embeds);
@@ -43,9 +45,7 @@ public class Help extends ListenerAdapter {
         String group = event.getSubcommandGroup();
         List<Command> filteredCommands = new ArrayList<>();
         for (Command command : commands) {
-            if (command.getSubcommands() == null) {
-                continue;
-            }
+            command.getSubcommands();
 
             boolean hasGroup = group != null && command.getSubcommandGroups().equals(group);
             boolean hasSubcommand = command.getName().equals(subcommand);
@@ -60,6 +60,8 @@ public class Help extends ListenerAdapter {
     private List<MessageEmbed> buildEmbeds(List<Command> commands) {
         List<MessageEmbed> embeds = new ArrayList<>();
         int i = 0;
+        System.out.println(commands);
+        System.out.println(commands.size());
         while (i < commands.size()) {
             PaginatedEmbed page = new PaginatedEmbed(embeds);
             StringBuilder descriptionBuilder = new StringBuilder();

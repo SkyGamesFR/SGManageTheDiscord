@@ -68,4 +68,18 @@ public class Constants {
         return Objects.requireNonNull(guild.getMemberById(userId)).getRoles().contains(guild.getRoleById(roleId));
     }
 
+    public static String millisecondsToTime(long milliseconds) {
+        long minutes = (milliseconds / 1000) / 60;
+        long seconds = (milliseconds / 1000) % 60;
+        String secondsStr = Long.toString(seconds);
+        String secs;
+        if (secondsStr.length() >= 2) {
+            secs = secondsStr.substring(0, 2);
+        } else {
+            secs = "0" + secondsStr;
+        }
+
+        return minutes + ":" + secs;
+    }
+
 }

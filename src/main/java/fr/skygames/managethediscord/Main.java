@@ -1,6 +1,7 @@
 package fr.skygames.managethediscord;
 
 import fr.skygames.managethediscord.managers.Manager;
+import fr.skygames.managethediscord.utils.embeds.ProgressBar;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.OnlineStatus;
 
@@ -17,6 +18,10 @@ public class Main {
     }
 
     static void onEnable() {
+
+        ProgressBar progressBar = new ProgressBar();
+        progressBar.updateMusic(195000, 100000);
+
         manager.initSQL();
         manager.initConfig();
         manager.init();
