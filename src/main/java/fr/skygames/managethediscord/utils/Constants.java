@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Objects;
 
 public class Constants {
 
@@ -19,6 +20,10 @@ public class Constants {
 
     public static final String TEMP_VOICE_CHANNEL_CATEGORY_ID = "1007033245415768114";
     public static final String CREATE_VOICE_CHANNEL_ID = "1007033365385445497";
+    public static final String SIGMA_ROLE = "1101848061367562240";
+    public static final String TAU_ROLE = "1101848061367562241";
+    public static final String UPSILON_ROLE = "1101848061367562242";
+    public static final String PHI_ROLE = "1101848061367562243";
 
     public static void updateMemberCount(Event event) {
         Guild guild = event.getJDA().getGuildById(GUILD_ID);
@@ -56,6 +61,11 @@ public class Constants {
 
     public static String DATE_FORMAT() {
         return new SimpleDateFormat("'le' dd/MM/yyyy '\u00E0' kk:mm:ss").format(new Date());
+    }
+
+    // check if user has role
+    public static boolean hasRole(Guild guild, String userId, String roleId) {
+        return Objects.requireNonNull(guild.getMemberById(userId)).getRoles().contains(guild.getRoleById(roleId));
     }
 
 }

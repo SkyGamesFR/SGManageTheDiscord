@@ -1,6 +1,7 @@
 package fr.skygames.managethediscord.managers;
 
 import fr.skygames.managethediscord.commands.Help;
+import fr.skygames.managethediscord.commands.Ping;
 import fr.skygames.managethediscord.commands.RolesCommand;
 import fr.skygames.managethediscord.commands.mod.Clear;
 import fr.skygames.managethediscord.commands.music.*;
@@ -43,6 +44,7 @@ public class Manager {
                 .setAutoReconnect(true)
                 .setBulkDeleteSplittingEnabled(false)
                 .setActivity(Activity.streaming("ManageTheDiscord", "https://www.youtube.com/watch?v=dQw4w9WgXcQ"))
+                .setAutoReconnect(true)
                 .addEventListeners(
                         new ReadyListener(this.logger, this),
                         new GuildListener(),
@@ -63,6 +65,7 @@ public class Manager {
 
                         new RolesCommand(connector),
                         new AlphaCommand(),
+                        new Ping(),
                         new Help(),
                         new Clear()
                 )

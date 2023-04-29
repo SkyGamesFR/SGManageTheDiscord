@@ -1,4 +1,4 @@
-package fr.skygames.managethediscord.utils;
+package fr.skygames.managethediscord.utils.embeds;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 
@@ -44,6 +44,10 @@ public class EmbedUtils {
         embedBuilder.setColor(color);
         embedBuilder.setImage(url);
         return embedBuilder;
+    }
+
+    public void addField(String title, String description, boolean inline) {
+        embedBuilder.addField(title, description, inline);
     }
 
 
