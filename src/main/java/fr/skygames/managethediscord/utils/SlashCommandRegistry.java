@@ -1,24 +1,12 @@
 package fr.skygames.managethediscord.utils;
 
-import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
-import net.dv8tion.jda.api.interactions.commands.build.Commands;
-import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 
 public class SlashCommandRegistry {
 
     public static void register(Guild guild) {
-            guild.upsertCommand("roles", "Manage the roles of the server")
-                    .addSubcommands(
-                            new SubcommandData("add", "Add a role to a user")
-                                    .addOption(OptionType.STRING, "name", "The role name", true)
-                                    .addOption(OptionType.STRING, "id", "The role id", true)
-                                    .addOption(OptionType.BOOLEAN, "isstaff", "Is the role a staff role ?", true),
-                            new SubcommandData("remove", "Remove a role from a user")
-                                    .addOption(OptionType.STRING, "id", "The role id", true),
-                            new SubcommandData("list", "List all the roles of the server")
-                    ).queue();
+            guild.upsertCommand("roles", "Send embed to view server roles").queue();
 
             guild.upsertCommand("alpha", "Send alpha infomations").queue();
 
@@ -29,8 +17,6 @@ public class SlashCommandRegistry {
             guild.upsertCommand("clear", "Clear messages")
                     .addOption(OptionType.INTEGER, "amount", "The amount of messages to delete", true)
                     .queue();
-
-            guild.upsertCommand("roles", "SOON").queue();
 
             guild.upsertCommand("join", "Join a voice channel").queue();
 

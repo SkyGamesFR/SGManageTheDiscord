@@ -38,9 +38,6 @@ public class ProgressBar {
             }
         }
         progressBar.append("]");
-
-        System.out.println(progressBar.toString());
-
         return progressBar.toString();
     }
 }

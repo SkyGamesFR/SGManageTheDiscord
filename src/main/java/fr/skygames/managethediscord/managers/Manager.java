@@ -2,10 +2,10 @@ package fr.skygames.managethediscord.managers;
 
 import fr.skygames.managethediscord.commands.Help;
 import fr.skygames.managethediscord.commands.Ping;
-import fr.skygames.managethediscord.commands.RolesCommand;
 import fr.skygames.managethediscord.commands.mod.Clear;
 import fr.skygames.managethediscord.commands.music.*;
 import fr.skygames.managethediscord.commands.owner.AlphaCommand;
+import fr.skygames.managethediscord.commands.owner.RolesCommand;
 import fr.skygames.managethediscord.listeners.*;
 import fr.skygames.managethediscord.sql.SqlConnector;
 import fr.skygames.managethediscord.utils.SlashCommandRegistry;
@@ -67,8 +67,8 @@ public class Manager {
 
                         new ButtonListener(),
 
-                        new RolesCommand(connector),
                         new AlphaCommand(),
+                        new RolesCommand(),
                         new Ping(),
                         new Help(),
                         new Clear()

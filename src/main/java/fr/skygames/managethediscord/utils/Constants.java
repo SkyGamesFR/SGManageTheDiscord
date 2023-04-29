@@ -2,6 +2,7 @@ package fr.skygames.managethediscord.utils;
 
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
 import net.dv8tion.jda.api.events.Event;
 
@@ -26,6 +27,8 @@ public class Constants {
     public static final String TAU_ROLE = "1101848061367562241";
     public static final String UPSILON_ROLE = "1101848061367562242";
     public static final String PHI_ROLE = "1101848061367562243";
+
+    public static final String ROLES_CHANNEL_ID = "1101848973704183920";
 
     public static void updateMemberCount(Event event) {
         Guild guild = event.getJDA().getGuildById(GUILD_ID);
@@ -82,6 +85,10 @@ public class Constants {
         }
 
         return minutes + ":" + secs;
+    }
+
+    public static TextChannel getLogChannel(Event event) {
+        return event.getJDA().getGuildById(GUILD_ID).getTextChannelById(LOG_CHANNEL_ID);
     }
 
 }
