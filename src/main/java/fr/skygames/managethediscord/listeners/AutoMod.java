@@ -1,6 +1,7 @@
 package fr.skygames.managethediscord.listeners;
 
 import fr.skygames.managethediscord.utils.Constants;
+import fr.skygames.managethediscord.utils.embeds.EmbedUtils;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
@@ -32,20 +33,23 @@ public class AutoMod extends ListenerAdapter {
         Guild guild = event.getGuild();
         TextChannel channel = event.getChannel().asTextChannel();
         String content = message.getContentRaw().toLowerCase();
+        EmbedUtils embedUtils = new EmbedUtils();
 
         for (String word : badWords) {
             if (content.contains(word)) {
                 message.delete().queue();
 
                 String warningMessage = "Hey " + event.getAuthor().getAsMention() + ", veuillez vous abstenir d'utiliser ce langage dans ce serveur.";
-                MessageCreateAction action = channel.sendMessage(warningMessage);
+                MessageCreateAction action = channel.sendMessageEmbeds(embedUtils.errorEmbed("AutoMod 🚓", warningMessage).build());
 
                 action.queue(response -> {
                     response.delete().queueAfter(10, java.util.concurrent.TimeUnit.SECONDS);
                 });
 
-                String logMessage = event.getAuthor().getAsMention() + " a utilisé le mot \"" + word + "\" sur " + guild.getName() + " (" + guild.getId() + ")";
-                Objects.requireNonNull(jda.getTextChannelById(Constants.LOG_CHANNEL_ID)).sendMessage(logMessage).queue();
+                String logMessage = event.getAuthor().getAsMention() + " a utilisé le mot \"" + word + "\" (" + message.getContentRaw() + ") sur " + guild.getName() + " (" + guild.getId() + ")";
+
+
+                event.getGuild().getTextChannelById(Constants.LOG_CHANNEL_ID).sendMessageEmbeds(embedUtils.warningEmbed("AutoMod 🚓", logMessage).build()).queue();
                 break;
             }
         }
