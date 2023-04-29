@@ -2,6 +2,7 @@ package fr.skygames.managethediscord.listeners;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import core.GLA;
+import fr.skygames.managethediscord.commands.Help;
 import fr.skygames.managethediscord.lavaplayer.GuildMusicManager;
 import fr.skygames.managethediscord.lavaplayer.PlayerManager;
 import fr.skygames.managethediscord.utils.Constants;
@@ -11,6 +12,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
@@ -21,6 +23,12 @@ import java.util.Objects;
 public class ButtonListener extends ListenerAdapter {
 
     private final MusicEB musicEB = new MusicEB();
+
+    @Override
+    public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
+        Help help = new Help();
+        help.onSlashCommand(event);
+    }
 
     @Override
     public void onButtonInteraction(ButtonInteractionEvent event) {
