@@ -55,9 +55,6 @@ public class PlayerManager {
                 musicEB.getBuilder().addField("Musique", audioTrack.getInfo().title, false);
                 musicEB.getBuilder().addField("Auteur", audioTrack.getInfo().author, false);
                 musicEB.getBuilder().addField("Durée", Constants.millisecondsToTime(audioTrack.getDuration()), false);
-
-                System.out.println("AZERTY " + audioTrack.getPosition() + " " + audioTrack.getDuration());
-
                 musicEB.getBuilder().addField(" ", progressBar.updateMusic(audioTrack.getDuration(), audioTrack.getPosition()), false);
                 musicEB.getBuilder().addField("Ajouté par", Objects.requireNonNull(data.getMember()).getAsMention(), false);
                 data.getHook().getInteraction().getMessageChannel().sendMessageEmbeds(musicEB.getBuilder().build()).addActionRow(musicEB.getActionRow()).queue();

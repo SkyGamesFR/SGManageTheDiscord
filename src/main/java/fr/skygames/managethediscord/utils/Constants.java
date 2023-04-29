@@ -18,6 +18,8 @@ public class Constants {
     public static final String GUILD_ID = "723615515171487827";
     public static final String MEMBER_COUNT_CHANNEL_ID = "1100836436804120686";
 
+    public static final String LOG_CHANNEL_ID = "1101984627826114580";
+
     public static final String TEMP_VOICE_CHANNEL_CATEGORY_ID = "1007033245415768114";
     public static final String CREATE_VOICE_CHANNEL_ID = "1007033365385445497";
     public static final String SIGMA_ROLE = "1101848061367562240";

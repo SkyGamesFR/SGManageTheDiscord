@@ -7,6 +7,7 @@
 3. Add the following lines to the `global.properties` file:
     ```
     bot_token=
+    bad_words=one,two,three,one a, two b, three c...
     ```
 4. Add the following lines to the `sql.properties` file:
    ```

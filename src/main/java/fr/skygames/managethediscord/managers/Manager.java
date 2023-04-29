@@ -39,7 +39,10 @@ public class Manager {
         }
     }
 
-    public void initJDA() throws Exception {
+    public void initJDA() {
+        config.getBadWords();
+
+
         jda = JDABuilder.createDefault(config.getBotToken())
                 .setAutoReconnect(true)
                 .setBulkDeleteSplittingEnabled(false)
@@ -51,6 +54,7 @@ public class Manager {
                         new LeaveJoinListener(config),
 
                         new TempChannels(),
+                        new AutoMod(config.getBadWords(),this.jda),
 
                         new JoinCommand(),
                         new NowPlayingCommand(),
@@ -70,8 +74,9 @@ public class Manager {
                         new Clear()
                 )
                 .enableCache(CacheFlag.VOICE_STATE, CacheFlag.ACTIVITY, CacheFlag.CLIENT_STATUS, CacheFlag.EMOJI, CacheFlag.MEMBER_OVERRIDES, CacheFlag.ONLINE_STATUS, CacheFlag.ROLE_TAGS, CacheFlag.VOICE_STATE)
-                .enableIntents(GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_VOICE_STATES, GatewayIntent.GUILD_PRESENCES)
+                .enableIntents(GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_VOICE_STATES, GatewayIntent.GUILD_PRESENCES, GatewayIntent.MESSAGE_CONTENT)
                 .build();
+
     }
 
     public void initConfig() {

@@ -3,10 +3,16 @@ package fr.skygames.managethediscord.utils.files;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
+
 public class GlobalProperties extends DefaultProperties {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -2466318655747892039L;
 	private final Logger logger = LoggerFactory.getLogger(GlobalProperties.class);
@@ -25,7 +31,7 @@ public class GlobalProperties extends DefaultProperties {
 		}
 
 		String property = this.getProperty(value);
-		
+
 		if(property == null || property.isEmpty()) {
 			logger.error("\"" + property + "\" value for \"" + value + "\" is invalid ! ( return default false )");
 			return "";
@@ -84,6 +90,20 @@ public class GlobalProperties extends DefaultProperties {
 		} catch (Exception e) {
 			logger.error("\"" + value + "\" must be an integer ! ( invalid " + property + " )", e);
 			return "0"; //return default
+		}
+	}
+
+	public List<String> getBadWords() {
+		List<String> result = new ArrayList<String>();
+		String[] words = this.getProperty("bad_words").split(",");
+		for (String word : words) {
+			result.add(word.trim());
+		}
+
+		if(result.size() > 0) {
+			return result;
+		}else {
+			return Collections.emptyList();
 		}
 	}
 }
