@@ -11,7 +11,6 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.requests.restaction.MessageCreateAction;
 
 import java.util.List;
-import java.util.Objects;
 
 public class AutoMod extends ListenerAdapter {
 

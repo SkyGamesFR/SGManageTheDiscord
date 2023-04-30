@@ -40,9 +40,6 @@ public class Manager {
     }
 
     public void initJDA() {
-        config.getBadWords();
-
-
         jda = JDABuilder.createDefault(config.getBotToken())
                 .setAutoReconnect(true)
                 .setBulkDeleteSplittingEnabled(false)

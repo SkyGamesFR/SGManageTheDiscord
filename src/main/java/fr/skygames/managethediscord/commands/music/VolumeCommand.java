@@ -1,6 +1,5 @@
 package fr.skygames.managethediscord.commands.music;
 
-import fr.skygames.managethediscord.lavaplayer.AudioPlayerSendHandler;
 import fr.skygames.managethediscord.lavaplayer.GuildMusicManager;
 import fr.skygames.managethediscord.lavaplayer.PlayerManager;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;

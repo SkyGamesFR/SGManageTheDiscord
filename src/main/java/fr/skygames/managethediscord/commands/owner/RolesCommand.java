@@ -6,6 +6,8 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
+import net.dv8tion.jda.api.events.message.react.MessageReactionRemoveEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class RolesCommand extends ListenerAdapter {
@@ -42,4 +44,45 @@ public class RolesCommand extends ListenerAdapter {
             }
         }
     }
+
+    @Override
+    public void onMessageReactionAdd(MessageReactionAddEvent event) {
+        switch (event.getReaction().getEmoji().getName()) {
+            case "sigma":
+                event.getGuild().addRoleToMember(event.getMember(), event.getGuild().getRoleById(Constants.SIGMA_ROLE)).queue();
+                break;
+            case "tau":
+                event.getGuild().addRoleToMember(event.getMember(), event.getGuild().getRoleById(Constants.TAU_ROLE)).queue();
+                break;
+            case "upsilon":
+                event.getGuild().addRoleToMember(event.getMember(), event.getGuild().getRoleById(Constants.UPSILON_ROLE)).queue();
+                break;
+            case "phi":
+                event.getGuild().addRoleToMember(event.getMember(), event.getGuild().getRoleById(Constants.PHI_ROLE)).queue();
+                break;
+            default:
+                event.getReaction().removeReaction(event.getUser()).queue();
+                break;
+        }
+    }
+
+    @Override
+    public void onMessageReactionRemove(MessageReactionRemoveEvent event) {
+        switch (event.getReaction().getEmoji().getName()) {
+            case "sigma":
+                event.getGuild().removeRoleFromMember(event.getMember(), event.getGuild().getRoleById(Constants.SIGMA_ROLE)).queue();
+                break;
+            case "tau":
+                event.getGuild().removeRoleFromMember(event.getMember(), event.getGuild().getRoleById(Constants.TAU_ROLE)).queue();
+                break;
+            case "upsilon":
+                event.getGuild().removeRoleFromMember(event.getMember(), event.getGuild().getRoleById(Constants.UPSILON_ROLE)).queue();
+                break;
+            case "phi":
+                event.getGuild().removeRoleFromMember(event.getMember(), event.getGuild().getRoleById(Constants.PHI_ROLE)).queue();
+                break;
+            default:
+                event.getReaction().removeReaction(event.getUser()).queue();
+                break;
+        }    }
 }

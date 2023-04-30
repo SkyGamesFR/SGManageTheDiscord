@@ -1,23 +1,16 @@
 package fr.skygames.managethediscord.commands;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import fr.skygames.managethediscord.utils.embeds.PaginatedEmbed;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.dv8tion.jda.api.interactions.commands.SlashCommandInteraction;
-import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
-import net.dv8tion.jda.api.interactions.commands.build.SubcommandGroupData;
-import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.Command;
-import net.dv8tion.jda.api.interactions.components.ActionRow;
+import net.dv8tion.jda.api.interactions.commands.SlashCommandInteraction;
 import net.dv8tion.jda.api.interactions.components.ItemComponent;
-import net.dv8tion.jda.api.requests.restaction.CommandListUpdateAction;
 
-import javax.activation.CommandInfo;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class Help extends ListenerAdapter {
 

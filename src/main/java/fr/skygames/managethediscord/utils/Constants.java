@@ -24,9 +24,9 @@ public class Constants {
     public static final String TEMP_VOICE_CHANNEL_CATEGORY_ID = "1007033245415768114";
     public static final String CREATE_VOICE_CHANNEL_ID = "1007033365385445497";
     public static final String SIGMA_ROLE = "1101848061367562240";
-    public static final String TAU_ROLE = "1101848061367562241";
-    public static final String UPSILON_ROLE = "1101848061367562242";
-    public static final String PHI_ROLE = "1101848061367562243";
+    public static final String TAU_ROLE = "1101848657164259358";
+    public static final String UPSILON_ROLE = "1101848697396002839";
+    public static final String PHI_ROLE = "1101848748981755974";
 
     public static final String ROLES_CHANNEL_ID = "1101848973704183920";
 
