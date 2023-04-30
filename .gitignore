@@ -1,10 +1,7 @@
 .gradle
 **/build/
 !src/**/build/
-
-**/src/main/resources/global.properties
-**/src/main/resources/sql.properties
-
+*.properties
 # Ignore Gradle GUI config
 gradle-app.setting
 
@@ -19,6 +16,3 @@ gradle-app.setting
 .project
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
-src/main/resources/global.properties
-src/main/resources/sql.properties
-*.properties
